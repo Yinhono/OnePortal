@@ -9,6 +9,10 @@
   <img src="https://img.shields.io/badge/Next.js-black?style=flat&logo=next.js&logoColor=white" alt="Next.js" />
 </div>
 
+# Deprecated
+
+Due to changes in Microsoft APIs and numerous historical issues within this project, the author is no longer able to continue maintenance. I sincerely apologize for this.
+
 ## TL;DR
 
 Showcase, share, preview, and download files inside *your* OneDrive with OnePortal
