@@ -30,9 +30,15 @@ export const runtime = 'edge'
  * The query is wrapped in single quotes in the URL, so a literal single quote
  * inside it is doubled, per OData string escaping. URL-encoding happens at
  * the call site.
+ *
+ * The drive search query parser rejects `/`, `\` and `:` with
+ * 400 "Bad Request - Error in query syntax", so those are replaced with a
+ * space, the same approach the old KQL sanitiser used for `/` and `?`.
+ * Verified against the live Graph endpoint: every other tested character
+ * (including `?`, `<`, `>`, `&`, `#`, `+`, `%`, `*` and CJK text) works.
  */
 function sanitiseQuery(query: string): string {
-  return query.replace(/'/g, "''")
+  return query.replace(/'/g, "''").replace(/[/\\:]/g, ' ')
 }
 
 export default async function handler(req: NextRequest): Promise<Response> {
