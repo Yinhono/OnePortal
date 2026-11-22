@@ -18,7 +18,13 @@ module.exports = {
   title: process.env.NEXT_PUBLIC_TITLE || 'OnePortal',
 
   // The folder that you are to share publicly with OnePortal. Use '/' if you want to share your root folder.
-  baseDirectory: process.env.BASE_DIRECTORY || '/',
+  // Normalised to always start with '/', so BASE_DIRECTORY works with or without a leading slash.
+  // Without this, '/api/item' builds the prefix '/drive/root:Publicx' while OneDrive reports paths as
+  // '/drive/root:/Publicx/...', so every search result is filtered out as null.
+  baseDirectory: (() => {
+    const dir = process.env.BASE_DIRECTORY || '/'
+    return dir.startsWith('/') ? dir : `/${dir}`
+  })(),
 
   // [OPTIONAL] This represents the maximum number of items that one directory lists, pagination supported.
   // Do note that this is limited up to 200 items by the upstream OneDrive API.
